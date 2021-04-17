@@ -1,0 +1,63 @@
+version: '3.4'
+
+services:
+
+    transactions.api:
+        container_name: transactionsapi
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+        ports:
+            - "7005:80"
+
+    spendings.api:
+        container_name: spendingsapi
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+        ports:
+            - "7004:80"
+
+    costs.api:
+        container_name: costsapi
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+        ports:
+            - "7003:80"
+
+    car.api:
+        container_name: carapi
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+        ports:
+            - "7002:80"
+
+    user.api:
+        container_name: userapi
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+        ports:
+            - "7001:80"
+  
+    apigateway:
+        container_name: apigateway
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - user.api
+            - car.api
+            - costs.api
+            - spendings.api
+            - transactions.api
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+        ports:
+            - "7000:80"

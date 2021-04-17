@@ -1,0 +1,172 @@
+{
+  "Routes": [
+    //User API
+    {
+      "DownstreamPathTemplate": "/api/User/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/User",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/User/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/User/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    //Car API
+    {
+      "DownstreamPathTemplate": "/api/Car/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "carapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Car",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Car/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "carapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Car/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+
+    //Costs API
+    {
+      "DownstreamPathTemplate": "/api/Costs/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "costsapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Costs",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Costs/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "costsapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Costs/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    //Spendings API
+    {
+      "DownstreamPathTemplate": "/api/Spendings/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "spendingsapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Spendings",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Spendings/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "spendingsapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Spendings/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+
+    //Transactions API
+    {
+      "DownstreamPathTemplate": "/api/Transactions/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "transactionsapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Transactions",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Transactions/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "transactionsapi",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Transactions/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "Transactions",
+      "Config": [
+        {
+          "Name": "transactionsapi",
+          "Version": "v1",
+          "Url": "http://localhost:7005/swagger/v1/swagger.json"
+        }
+      ]
+    }
+    //,
+    //{
+    //  "Key": "orders",
+    //  "Config": [
+    //    {
+    //      "Name": "Orders API",
+    //      "Version": "v0.9",
+    //      "Url": "http://localhost:5200/swagger/v0.9/swagger.json"
+    //    },
+    //    {
+    //      "Name": "Orders API",
+    //      "Version": "v1",
+    //      "Url": "http://localhost:5200/swagger/v1/swagger.json"
+    //    },
+    //    {
+    //      "Name": "Orders API",
+    //      "Version": "v2",
+    //      "Url": "http://localhost:5200/swagger/v2/swagger.json"
+    //    },
+    //    {
+    //      "Name": "Orders API",
+    //      "Version": "v3",
+    //      "Url": "http://localhost:5200/swagger/v3/swagger.json"
+    //    }
+    //  ]
+    //}
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost"
+  }
+}

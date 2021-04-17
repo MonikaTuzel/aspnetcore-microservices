@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+    transactions.api:
+        image: ${DOCKER_REGISTRY-}transactionsapi
+        hostname: transactionsapi
+        build:
+            context: .
+            dockerfile: src/Transactions/Transactions.API/Dockerfile
+
+    spendings.api:
+        image: ${DOCKER_REGISTRY-}spendingsapi
+        hostname: spendingsapi
+        build:
+            context: .
+            dockerfile: src/Spendings/Spendings.API/Dockerfile
+
+    costs.api:
+        image: ${DOCKER_REGISTRY-}costsapi
+        hostname: costsapi
+        build:
+            context: .
+            dockerfile: src/Costs/Costs.API/Dockerfile
+
+    car.api:
+        image: ${DOCKER_REGISTRY-}carapi
+        hostname: carapi
+        build:
+            context: .
+            dockerfile: src/Car/Car.API/Dockerfile
+
+    user.api:
+        image: ${DOCKER_REGISTRY-}userapi
+        hostname: userapi
+        build:
+            context: .
+            dockerfile: src/User/User.API/Dockerfile
+
+    apigateway:
+        image: ${DOCKER_REGISTRY-}apigateway
+        build:
+            context: .
+            dockerfile: src/ApiGateway/APIGateway/Dockerfile
