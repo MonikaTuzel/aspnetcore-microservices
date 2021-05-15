@@ -26,6 +26,8 @@ namespace SpendingsApi.Models
     [Table("AspNetUsers_has_DB_Car")]
     public class UserCars
     {
+        [Key]
+        public int Id { get; set; }
         public string AspNetUsers_Id { get; set; }
         public int DB_Car_idCar { get; set; }
     }

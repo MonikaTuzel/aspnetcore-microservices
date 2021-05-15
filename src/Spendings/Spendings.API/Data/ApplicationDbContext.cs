@@ -14,11 +14,11 @@ namespace SpendingsApi.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<UserCars>()
-                .HasNoKey();
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<UserCars>()
+        //        .HasNoKey();
+        //}
 
         public DbSet<SpendingsApi.Models.Spendings> Spendings { get; set; }
         public DbSet<CarApi.Models.Car> Car { get; set; }

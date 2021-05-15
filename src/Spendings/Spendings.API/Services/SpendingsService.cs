@@ -30,7 +30,7 @@ namespace SpendingsApi.Services
             dbContext.Spendings.Add(spendings);
             await dbContext.SaveChangesAsync();
             Serilog.Log.Information($@"Dodano nowe wydatki!, User: {spendings.idUser}, Date: {spendings.Date}, Car: {spendings.CarID}");
-            return await Task.FromResult("");
+            return await Task.FromResult("OK");
 
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace SpendingsApi.Services
         /// <returns></returns>
         public async Task<List<Spendings>> GetSpendingsByIdAsync(string id)
         {
-            var spendings = dbContext.Spendings.Where(s => s.idUser == id).ToList();
+            var spendings = await dbContext.Spendings.Where(s => s.idUser == id).ToListAsync();
 
             if (spendings == null)
             {
@@ -66,7 +66,7 @@ namespace SpendingsApi.Services
 
         public async Task<List<CarApi.Models.Car>> GetUserCars(string id)
         {
-            var userCars = await dbContext.UserCars.Where(uc => uc.AspNetUsers_Id == id).ToListAsync();
+            var userCars = dbContext.UserCars.Where(uc => uc.AspNetUsers_Id == id).ToList();
 
             var cars = await dbContext.Car.ToListAsync();
             cars = cars.Where(c => userCars.Any(us => c.idCar == us.DB_Car_idCar)).ToList();
