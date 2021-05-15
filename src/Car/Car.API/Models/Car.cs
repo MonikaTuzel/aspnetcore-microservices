@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace CarApi.Models
 {
+    /// <summary>
+    /// Obiekt Car odpowiadający danym z bazy
+    /// </summary>
+    /// 
     public class Car
     {
-        /// <summary>
-        /// Obiekt Car odpowiadający danym z bazy
-        /// </summary>
-        /// 
-
         [Key]
         public int idCar { get; set; }              ///Numer kolejny auta - autoinkrementacja
         public string Manufacturer { get; set; }    ///Marka

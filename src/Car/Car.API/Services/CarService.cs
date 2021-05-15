@@ -25,10 +25,6 @@ namespace CarApi.Services
         /// <returns></returns>
         public async Task<string> AddCar(Car car)
         {
-            //dbContext.Car.Add(car);
-            //await dbContext.SaveChangesAsync();
-            //return await Task.FromResult("");
-
             dbContext.Car.Add(car);
             await dbContext.SaveChangesAsync();
             return await Task.FromResult("");
