@@ -73,7 +73,6 @@ namespace UserApi
             services.RegisterMyServices();
             services.AddCors();
             services.AddSwaggerGen();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

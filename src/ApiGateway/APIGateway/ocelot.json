@@ -165,8 +165,8 @@
     //    }
     //  ]
     //}
-  ],
-  "GlobalConfiguration": {
-    "BaseUrl": "http://localhost"
-  }
+  ]
+  //"GlobalConfiguration": {
+  //  "BaseUrl": "http://localhost"
+  //}
 }

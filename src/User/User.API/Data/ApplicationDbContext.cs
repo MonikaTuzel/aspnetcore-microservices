@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserApi.Models;
 
 namespace UserApi.Data
 {
@@ -13,6 +14,7 @@ namespace UserApi.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }
         public DbSet<IdentityUser> IdentityUsers { get; set; }
+        public DbSet<Address> Adresses { get; set; }
 
     }
 }

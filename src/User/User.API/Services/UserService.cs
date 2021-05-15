@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,6 +63,18 @@ namespace UserApi.Sevices
 
             newUser.UserName = user.Where(u => u.Key == "userName").FirstOrDefault().Value.ToString();
             newUser.Email = user.Where(u => u.Key == "email").FirstOrDefault().Value.ToString();
+            newUser.PhoneNumber = user.Where(u => u.Key == "phoneNumber").FirstOrDefault().Value.ToString();
+
+            var userAddress = new Address();
+            userAddress.AspNetUsersID = id;
+            userAddress.FirstName = user.Where(u => u.Key == "firstName").FirstOrDefault().Value.ToString();
+            userAddress.LastName = user.Where(u => u.Key == "lastName").FirstOrDefault().Value.ToString();
+            userAddress.City = user.Where(u => u.Key == "city").FirstOrDefault().Value.ToString();
+            userAddress.Country = user.Where(u => u.Key == "country").FirstOrDefault().Value.ToString();
+            userAddress.PostCode = user.Where(u => u.Key == "postalCode").FirstOrDefault().Value.ToString();
+
+            await dbContext.Adresses.AddAsync(userAddress);
+            await dbContext.SaveChangesAsync();
 
             await userManager.UpdateAsync(newUser);
             return await userManager.FindByIdAsync(id);
@@ -83,9 +96,27 @@ namespace UserApi.Sevices
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<IdentityUser> GetUserById(string id)
+        public async Task<IDictionary<string, object>> GetUserById(string id)
         {
-            return await userManager.FindByIdAsync(id);
+            dynamic user = new ExpandoObject() as IDictionary<string, Object>;
+            var userDictionary = (IDictionary<string, object>)user;
+
+            IdentityUser identityUser = await userManager.FindByIdAsync(id);
+            var userAddress = await dbContext.Adresses.FindAsync(id);
+
+
+            foreach (PropertyInfo prop in identityUser.GetType().GetProperties())
+            {
+                userDictionary.Add(prop.Name, prop.GetValue(identityUser, null));
+            }
+
+            foreach (PropertyInfo prop in userAddress.GetType().GetProperties())
+            {
+                userDictionary.Add(prop.Name, prop.GetValue(userAddress, null));
+            }
+
+
+            return userDictionary;
         }
 
         private async Task<string> Register(IdentityUser user, string password)

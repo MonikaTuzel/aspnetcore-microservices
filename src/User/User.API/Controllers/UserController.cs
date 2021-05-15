@@ -50,7 +50,7 @@ namespace UserApi.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public async Task<IdentityUser> GetUserByIdAsync(string id)
+        public async Task<IDictionary<string, object>> GetUserByIdAsync(string id)
         {
             return await userService.GetUserById(id);
         }
@@ -97,7 +97,8 @@ namespace UserApi.Controllers
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo,
-                    id = user.Id
+                    id = user.Id,
+                    role = userRoles[0]
                 });
             }
             return Unauthorized();

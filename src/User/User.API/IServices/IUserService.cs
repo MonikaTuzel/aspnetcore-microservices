@@ -15,7 +15,7 @@ namespace UserApi.IServices
     public interface IUserService
     {
         Task<IEnumerable<IdentityUser>> GetUsers();
-        Task<IdentityUser> GetUserById(string id);
+        Task<IDictionary<string, object>> GetUserById(string id);
         Task<string> AddUser(IdentityUser user, string password);
         Task<IdentityUser> UpdateUser(ExpandoObject user);
         Task<string> DeleteUser(string id);
