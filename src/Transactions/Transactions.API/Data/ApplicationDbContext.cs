@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CarApi.Models;
+using Microsoft.EntityFrameworkCore;
+using SpendingsApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,15 @@ namespace TransactionsApi.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         { }
-            public DbSet<Transaction> Transaction { get; set; }
-    } }
-    
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<UserCars>()
+        //        .HasNoKey();
+        //}
+
+        public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<UserCars> UserCars { get; set; }
+        public DbSet<Car> Car { get; set; }
+    }
+}
+

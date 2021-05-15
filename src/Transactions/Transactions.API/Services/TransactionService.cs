@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TransactionsApi.Data;
 using TransactionsApi.Models;
+using SpendingsApi.Models;
 
 namespace TransactionApi.Services
 {
@@ -23,7 +24,19 @@ namespace TransactionApi.Services
             dbContext.Transaction.Add(Transaction);
             await dbContext.SaveChangesAsync();
 
-            return await Task.FromResult("");
+            var newCar = new UserCars();
+            newCar.AspNetUsers_Id = Transaction.User;
+            newCar.DB_Car_idCar = Transaction.Car;
+
+            var car = await dbContext.Car.FindAsync(Transaction.Car);
+            car.IsAvailable = 0;
+            dbContext.Car.Update(car);
+
+            dbContext.UserCars.Add(newCar);
+
+            await dbContext.SaveChangesAsync();
+
+            return await Task.FromResult("OK");
 
             ///<summary>
             /// metoda dodająca nową transakcję

@@ -54,7 +54,6 @@ namespace TransactionsApi.Controllers
         public async Task<String> PostTransaction([FromBody] Transaction transaction)
         {
             return await transactionService.AddTransaction(transaction);
-
         }
 
         // DELETE: api/Transactions/5
