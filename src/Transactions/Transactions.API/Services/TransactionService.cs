@@ -21,8 +21,16 @@ namespace TransactionApi.Services
 
         public async Task<string> AddTransaction(Transaction Transaction)
         {
-            dbContext.Transaction.Add(Transaction);
-            await dbContext.SaveChangesAsync();
+            try
+            {
+                dbContext.Transaction.Add(Transaction);
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                var a = e;
+            }
+
 
             var newCar = new UserCars();
             newCar.AspNetUsers_Id = Transaction.User;
