@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CostsApi.Data;
+﻿using CostsApi.Data;
 using CostsApi.IServices;
 using CostsApi.Models;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +16,7 @@ namespace CostsApi.Services
         {
             dbContext = _db;
         }
+
         /// <summary>
         /// Metoda dodająca rekord w tabeli Costs
         /// </summary>
@@ -28,8 +28,8 @@ namespace CostsApi.Services
             await dbContext.SaveChangesAsync();
 
             return await Task.FromResult("");
-
         }
+
         /// <summary>
         /// Metoda usuwająca rekord w tabeli Costs
         /// </summary>
@@ -44,6 +44,7 @@ namespace CostsApi.Services
             dbContext.SaveChanges();
             return await Task.FromResult("");
         }
+
         /// <summary>
         /// Metoda pobierająca rekordy z tabeli Costs - by Id
         /// </summary>
@@ -53,13 +54,9 @@ namespace CostsApi.Services
         {
             var costs = await dbContext.Costs.FindAsync(id);
 
-            if (costs == null)
-            {
-
-            }
-
             return costs;
         }
+
         /// <summary>
         /// Metoda pobierająca rekordy z tabeli Costs
         /// </summary>
@@ -79,8 +76,5 @@ namespace CostsApi.Services
             dbContext.SaveChanges();
             return costs;
         }
-
-
-
     }
 }

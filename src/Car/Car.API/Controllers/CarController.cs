@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CarApi.Data;
-using CarApi.Models;
+﻿using CarApi.Data;
 using CarApi.IServices;
+using CarApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarApi.Controllers
 {
@@ -49,7 +46,7 @@ namespace CarApi.Controllers
         /// <param name="car"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public Car PutCar([FromBody]Car car)
+        public Car PutCar([FromBody] Car car)
         {
             return carService.UpdateCar(car);
         }
@@ -60,7 +57,7 @@ namespace CarApi.Controllers
         /// <param name="car"></param>
         /// <returns></returns>
         [HttpPost]
-        public async  Task<String> PostCar([FromBody]Car car)
+        public async Task<String> PostCar([FromBody] Car car)
         {
             return await carService.AddCar(car);
         }
@@ -74,16 +71,6 @@ namespace CarApi.Controllers
         public async Task<String> DeleteCar(int id)
         {
             return await carService.DeleteCar(id);
-        }
-
-        /// <summary>
-        ///  metoda sprawdzająca czy rekord istnieje
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        private bool CarExists(int id)
-        {
-            return _context.Car.Any(e => e.idCar == id);
         }
     }
 }

@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using UserApi.Data;
 using UserApi.IServices;
@@ -22,27 +17,24 @@ namespace UserApi.Sevices
     {
         ApplicationDbContext dbContext;
         private UserManager<IdentityUser> userManager { get; }
-        private RoleManager<IdentityRole> roleManager { get; }
-        private readonly IConfiguration configuration;
 
-        public UserService(ApplicationDbContext _db, UserManager<IdentityUser> _userManager, RoleManager<IdentityRole> _roleManager,
-            IConfiguration _configuration)
+        public UserService(ApplicationDbContext _db, UserManager<IdentityUser> _userManager)
         {
             dbContext = _db;
             userManager = _userManager;
-            roleManager = _roleManager;
-            configuration = _configuration;
         }
+        
         /// <summary>
-        /// Metoda zwraCAJĄCA WSZYSTkich użytkowników
+        /// Metoda zwracająca wszystkich użytkowników
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<IdentityUser>> GetUsers()
         {
             return await dbContext.Users.ToListAsync();
         }
+
         /// <summary>
-        /// 
+        /// metoda dodająca użytkownika
         /// </summary>
         /// <param name="user">Obietk użyt</param>
         /// <param name="password"></param>
@@ -51,36 +43,49 @@ namespace UserApi.Sevices
         {
             return await Register(user, password);
         }
+
         /// <summary>
-        /// 
+        /// medota edytowania użytkownika
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<IdentityUser> UpdateUser(ExpandoObject user)
+        public async Task<ExpandoObject> UpdateUser(ExpandoObject user)
         {
             string id = user.Where(u => u.Key == "idUser").FirstOrDefault().Value.ToString();
             var newUser = userManager.FindByIdAsync(id).Result;
 
-            newUser.UserName = user.Where(u => u.Key == "userName").FirstOrDefault().Value.ToString();
-            newUser.Email = user.Where(u => u.Key == "email").FirstOrDefault().Value.ToString();
-            newUser.PhoneNumber = user.Where(u => u.Key == "phoneNumber").FirstOrDefault().Value.ToString();
+            newUser.UserName = user.Where(u => u.Key == "UserName").FirstOrDefault().Value.ToString();
+            newUser.Email = user.Where(u => u.Key == "Email").FirstOrDefault().Value.ToString();
+            newUser.PhoneNumber = user.Where(u => u.Key == "PhoneNumber").FirstOrDefault().Value.ToString();
 
             var userAddress = new Address();
             userAddress.AspNetUsersID = id;
-            userAddress.FirstName = user.Where(u => u.Key == "firstName").FirstOrDefault().Value.ToString();
-            userAddress.LastName = user.Where(u => u.Key == "lastName").FirstOrDefault().Value.ToString();
-            userAddress.City = user.Where(u => u.Key == "city").FirstOrDefault().Value.ToString();
-            userAddress.Country = user.Where(u => u.Key == "country").FirstOrDefault().Value.ToString();
-            userAddress.PostCode = user.Where(u => u.Key == "postalCode").FirstOrDefault().Value.ToString();
+            userAddress.FirstName = user.Where(u => u.Key == "FirstName").FirstOrDefault().Value.ToString();
+            userAddress.LastName = user.Where(u => u.Key == "LastName").FirstOrDefault().Value.ToString();
+            userAddress.City = user.Where(u => u.Key == "City").FirstOrDefault().Value.ToString();
+            userAddress.Country = user.Where(u => u.Key == "Country").FirstOrDefault().Value.ToString();
+            userAddress.PostCode = user.Where(u => u.Key == "PostCode").FirstOrDefault().Value.ToString();
 
-            await dbContext.Adresses.AddAsync(userAddress);
-            await dbContext.SaveChangesAsync();
+            //dbContext.Adresses.Update(userAddress);
+            try
+            {
+                dbContext.Entry(userAddress).State = EntityState.Modified;
+                await dbContext.SaveChangesAsync();
 
-            await userManager.UpdateAsync(newUser);
-            return await userManager.FindByIdAsync(id);
+                await userManager.UpdateAsync(newUser);
+            }
+            catch (Exception ex)
+            {
+                var userR = (IDictionary<string, object>)user;
+                userR.Add("Ex", ex);
+                return (ExpandoObject)userR;
+            }
+
+            return user;
         }
+
         /// <summary>
-        /// 
+        /// metoda usuwająca użytkownika
         /// </summary>
         /// <param name="id"></param>
         /// <returns>W</returns>
@@ -91,19 +96,19 @@ namespace UserApi.Sevices
             dbContext.SaveChanges();
             return await Task.FromResult("");
         }
+
         /// <summary>
-        /// 
+        /// metoda zwracająca użytkownika według {id}
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task<IDictionary<string, object>> GetUserById(string id)
         {
-            dynamic user = new ExpandoObject() as IDictionary<string, Object>;
+            dynamic user = new ExpandoObject();
             var userDictionary = (IDictionary<string, object>)user;
 
             IdentityUser identityUser = await userManager.FindByIdAsync(id);
             var userAddress = await dbContext.Adresses.FindAsync(id);
-
 
             foreach (PropertyInfo prop in identityUser.GetType().GetProperties())
             {
@@ -114,7 +119,6 @@ namespace UserApi.Sevices
             {
                 userDictionary.Add(prop.Name, prop.GetValue(userAddress, null));
             }
-
 
             return userDictionary;
         }

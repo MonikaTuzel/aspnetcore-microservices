@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System.IO;
 using Serilog;
-using Serilog.Sinks.MariaDB;
-using Serilog.Sinks.MariaDB.Extensions;
+using System;
+using System.IO;
 
 namespace SpendingsApi
 {

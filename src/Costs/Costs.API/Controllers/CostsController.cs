@@ -1,13 +1,11 @@
-﻿using System;
+﻿using CostsApi.Data;
+using CostsApi.IServices;
+using CostsApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CostsApi.Data;
-using CostsApi.Models;
-using CostsApi.IServices;
 
 namespace CostsApi.Controllers
 {
@@ -24,8 +22,6 @@ namespace CostsApi.Controllers
             costsService = _costsService;
         }
 
-
-
         /// <summary>
         /// metoda obsługująca request GET dla api/Costs
         /// </summary>
@@ -35,7 +31,6 @@ namespace CostsApi.Controllers
         {
             return await costsService.GetCosts();
         }
-
 
         /// <summary>
         /// metoda obsługująca request GET dla wybranego Id - api/Costs
@@ -54,7 +49,7 @@ namespace CostsApi.Controllers
         /// <param name="costs"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public Costs PutCosts([FromBody]Costs costs)
+        public Costs PutCosts([FromBody] Costs costs)
         {
             return costsService.UpdateCosts(costs);
         }

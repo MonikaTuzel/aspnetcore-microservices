@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarApi.Models;
+﻿using CarApi.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CarApi.Data
 {
@@ -13,8 +10,8 @@ namespace CarApi.Data
             : base(options)
         {
         }
-        public DbSet<CarApi.Models.Car> Car { get; set; }
+        public DbSet<Car> Car { get; set; }
+        public DbSet<UserCars> UserCars { get; set; }
 
     }
 }
-   

@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 using UserApi.IServices;
 using UserApi.Models;
-using UserApi.Sevices;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace UserApi.Controllers
 {
@@ -26,21 +20,19 @@ namespace UserApi.Controllers
     {
         private IUserService userService { get; }
         private UserManager<IdentityUser> userManager { get; }
-        private RoleManager<IdentityRole> roleManager { get; }
         private readonly IConfiguration configuration;
 
-        public UserController(IUserService _userService, RoleManager<IdentityRole> _roleManager, UserManager<IdentityUser> _userManager,
+        public UserController(IUserService _userService, UserManager<IdentityUser> _userManager,
             IConfiguration _configuration)
         {
             userService = _userService;
             userManager = _userManager;
-            roleManager = _roleManager;
             configuration = _configuration;
         }
+
         /// <summary>
-        /// 
+        /// metoda obsługująca request GET dla api/User
         /// </summary>
-        /// <returns></returns>
         // GET: api/<UserController>
         [HttpGet]
         public async Task<IEnumerable<IdentityUser>> Get()
@@ -104,10 +96,9 @@ namespace UserApi.Controllers
             return Unauthorized();
         }
 
-
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public Task<IdentityUser> Put([FromBody] ExpandoObject user)
+        public Task<ExpandoObject> Put([FromBody] ExpandoObject user)
         {
             return userService.UpdateUser(user);
         }

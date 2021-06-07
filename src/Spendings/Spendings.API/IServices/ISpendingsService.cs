@@ -1,9 +1,8 @@
-﻿using SpendingsApi.Models;
+﻿using CarApi.Models;
+using SpendingsApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using CarApi.Models;
 
 namespace SpendingsApi.IServices
 {
@@ -15,11 +14,7 @@ namespace SpendingsApi.IServices
         Task<string> AddSpendings(Spendings spendings);
         Spendings UpdateSpendings(Spendings spendings);
         Task<string> DeleteSpendings(int id);
-        Task<List<Log>> GetLogsByIdAsync(string id);
-        Task<Tuple<Task<string>, Task<string>>> SetNames(int idCar, int idCost);
-
-
-
-
+        List<Log> GetLogsById(string id);
+        Tuple<Task<string>, Task<string>> SetNames(int idCar, int idCost);
     }
 }

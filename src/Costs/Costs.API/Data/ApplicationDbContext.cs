@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CostsApi.Models;
 
 namespace CostsApi.Data
 {
@@ -14,5 +9,5 @@ namespace CostsApi.Data
         {
         }
         public DbSet<CostsApi.Models.Costs> Costs { get; set; }
-      }
     }
+}

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarApi.Models;
-using Microsoft.AspNetCore.Http;
+﻿using CarApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SpendingsApi.Data;
 using SpendingsApi.IServices;
 using SpendingsApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SpendingsApi.Controllers
 {
@@ -16,7 +12,6 @@ namespace SpendingsApi.Controllers
     [ApiController]
     public class SpendingsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private ISpendingsService spendingsService { get; }
         private IEmailService emailService { get; }
         public SpendingsController(ISpendingsService _spendingsService, IEmailService email)
@@ -24,7 +19,6 @@ namespace SpendingsApi.Controllers
             spendingsService = _spendingsService;
             emailService = email;
         }
-
 
         /// <summary>
         /// metoda obsługująca request GET dla api/Spendings
@@ -39,10 +33,11 @@ namespace SpendingsApi.Controllers
         // GET api/<SpendingsController>/spending/5
         [HttpGet]
         [Route("[action]/{id}")]
-        public async Task<List<Log>> GetLogs(string id)
+        public  List<Log> GetLogs(string id)
         {
-            return await spendingsService.GetLogsByIdAsync(id);
+            return  spendingsService.GetLogsById(id);
         }
+
         /// <summary>
         /// metoda obsługująca request GET dla wybranego Id - api/Spendings
         /// </summary>
@@ -55,6 +50,7 @@ namespace SpendingsApi.Controllers
         {
             return await spendingsService.GetSpendingsByIdAsync(id);
         }
+
         // GET api/<SpendingsController>/usercars/5
         [HttpGet]
         [Route("[action]/{id}")]
@@ -85,13 +81,11 @@ namespace SpendingsApi.Controllers
         {
             var spendings = await spendingsService.GetSpendingsByIdAsync(email.IdUser);
 
-
             var emailSenderDecorator = new EmailServiceDecorator(emailService, spendingsService);
-            email.Html += await emailSenderDecorator.CreateHTMLTableAsync(spendings);
+            email.Html += emailSenderDecorator.CreateHTMLTableAsync(spendings);
 
             emailService.Send(email);
         }
-
 
         /// <summary>
         /// metoda obsługująca request POST dla api/Spendings
@@ -114,17 +108,6 @@ namespace SpendingsApi.Controllers
         public async Task<String> DeleteSpendings(int id)
         {
             return await spendingsService.DeleteSpendings(id);
-        }
-
-        /// <summary>
-        /// metoda sprawdzająca czy rekord istnieje
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-
-        private bool SpendingsExists(int id)
-        {
-            return _context.Spendings.Any(e => e.idSpendings == id);
         }
     }
 }

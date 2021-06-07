@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Serilog;
 
 
 namespace SpendingsApi.Services
@@ -20,6 +19,7 @@ namespace SpendingsApi.Services
         {
             dbContext = _db;
         }
+
         /// <summary>
         /// Metoda dodająca rekord w tabeli Spendings
         /// </summary>
@@ -33,6 +33,7 @@ namespace SpendingsApi.Services
             return await Task.FromResult("OK");
 
         }
+
         /// <summary>
         /// Metoda usuwająca rekord w tabeli Spendings
         /// </summary>
@@ -40,13 +41,13 @@ namespace SpendingsApi.Services
         /// <returns></returns>
         public async Task<string> DeleteSpendings(int id)
         {
-
             var spendings = dbContext.Spendings.FirstOrDefault(x => x.idSpendings == id);
             dbContext.Entry(spendings).State = EntityState.Deleted;
 
             dbContext.SaveChanges();
             return await Task.FromResult("");
         }
+
         /// <summary>
         /// Metoda pobierająca rekordy z tabeli Spendings - by Id
         /// </summary>
@@ -55,11 +56,6 @@ namespace SpendingsApi.Services
         public async Task<List<Spendings>> GetSpendingsByIdAsync(string id)
         {
             var spendings = await dbContext.Spendings.Where(s => s.idUser == id).ToListAsync();
-
-            if (spendings == null)
-            {
-
-            }
 
             return spendings;
         }
@@ -71,13 +67,9 @@ namespace SpendingsApi.Services
             var cars = await dbContext.Car.ToListAsync();
             cars = cars.Where(c => userCars.Any(us => c.idCar == us.DB_Car_idCar)).ToList();
 
-            if (cars == null)
-            {
-
-            }
-
             return cars;
         }
+
         /// <summary>
         /// Metoda pobierająca rekordy z tabeli Spendings
         /// </summary>
@@ -86,6 +78,7 @@ namespace SpendingsApi.Services
         {
             return await dbContext.Spendings.ToListAsync();
         }
+
         /// <summary>
         /// Metoda modyfikująca rekord w tabeli Spendings
         /// </summary>
@@ -97,24 +90,17 @@ namespace SpendingsApi.Services
             dbContext.SaveChanges();
             return spendings;
         }
-
-        public async Task<List<Models.Log>> GetLogsByIdAsync(string id)
+        public List<Log> GetLogsById(string id)
         {
             var logs = dbContext.Logs.Where(s => s.Message.Contains(id)).ToList();
-
-            if (logs == null)
-            {
-
-            }
 
             return logs;
         }
 
-        public async Task<Tuple<Task<string>, Task<string>>> SetNames(int idCar, int idCost)
+        public Tuple<Task<string>, Task<string>> SetNames(int idCar, int idCost)
         {
             var carName = Task.FromResult(dbContext.Car.Where(c => c.idCar == idCar).FirstOrDefault().Model);
             var costName = Task.FromResult(dbContext.Costs.Where(c => c.idCosts == idCar).FirstOrDefault().Description);
-
 
             return new Tuple<Task<string>, Task<string>>(carName, costName);
         }

@@ -1,9 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarApi.IServices;
+﻿using CarApi.IServices;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CarApi.Services
 {

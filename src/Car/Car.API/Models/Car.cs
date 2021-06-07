@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarApi.Models
 {
@@ -26,5 +24,14 @@ namespace CarApi.Models
         public string RegNumbers { get; set; }      ///numer rejestracyjny
         public string FilePath { get; set; }        ///ścieżka do dodatkowych danych np. zdjęcia itp.
         public DateTime TechRev { get; set; }       ///Data ważności przeglądu
+    }
+
+    [Table("AspNetUsers_has_DB_Car")]
+    public class UserCars
+    {
+        [Key]
+        public int Id { get; set; }
+        public string AspNetUsers_Id { get; set; }
+        public int DB_Car_idCar { get; set; }
     }
 }

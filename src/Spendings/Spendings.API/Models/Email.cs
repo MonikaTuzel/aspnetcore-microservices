@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SpendingsApi.Models
+﻿namespace SpendingsApi.Models
 {
     public class Email
     {
@@ -12,6 +7,5 @@ namespace SpendingsApi.Models
         public string Subject { get; set; }
         public string Html { get; set; }
         public string IdUser { get; set; }
-
     }
 }

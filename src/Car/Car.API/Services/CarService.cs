@@ -2,7 +2,6 @@
 using CarApi.IServices;
 using CarApi.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,11 +51,6 @@ namespace CarApi.Services
         {
             var car = await dbContext.Car.FindAsync(id);
 
-            if (car == null)
-            {
-
-            }
-
             return car;
         }
 
@@ -64,7 +58,7 @@ namespace CarApi.Services
         /// Metoda pobierająca rekordy z tabeli Car
         /// </summary>
         /// <returns></returns>
-        public async Task<IList <Car>> GetCars()
+        public async Task<IList<Car>> GetCars()
         {
             return await dbContext.Car.ToListAsync();
         }
@@ -77,6 +71,13 @@ namespace CarApi.Services
         public Car UpdateCar(Car car)
         {
             dbContext.Entry(car).State = EntityState.Modified;
+            dbContext.SaveChanges();
+
+            var userCar = dbContext.UserCars.FirstOrDefault(x => x.DB_Car_idCar == car.idCar);
+
+            if (userCar != null)
+                dbContext.Entry(userCar).State = EntityState.Deleted;
+
             dbContext.SaveChanges();
             return car;
         }

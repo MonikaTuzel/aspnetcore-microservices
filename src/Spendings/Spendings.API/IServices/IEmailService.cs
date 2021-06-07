@@ -1,7 +1,6 @@
 ﻿using SpendingsApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpendingsApi.IServices
@@ -9,7 +8,7 @@ namespace SpendingsApi.IServices
     public interface IEmailService
     {
         void Send(Email email);
-        Task<string> CreateHTMLTableAsync(List<Spendings> spendings);
+       string CreateHTMLTableAsync(List<Spendings> spendings);
     }
 
     public class EmailServiceDecorator : IEmailService
@@ -23,50 +22,54 @@ namespace SpendingsApi.IServices
             spendingsService = service;
         }
 
-        public async Task<string> CreateHTMLTableAsync(List<Spendings> spendings)
+        public string CreateHTMLTableAsync(List<Spendings> spendings)
         {
 
-
             string stringHTML = $@"<!DOCTYPE html>
-<html>
-<head>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<style>
-table {{
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-}}
+                <html>
+                <head>
+                <meta name='viewport' content='width=device-width, initial-scale=1'>
+                <style>
+                
+                table {{
+                border-collapse: collapse;
+                border-spacing: 0;
+                width: 100%;
+                border: 1px solid #ddd;
+                }}
 
-th, td {{
-  text-align: left;
-  padding: 16px;
-}}
-tr:nth-child(even) {{
-  background-color: #f2f2f2;
-}}
-</style>
-</head>
-<body>
+                th, td {{
+                text-align: left;
+                padding: 16px;
+                }}
+            
+                tr:nth-child(even) {{
+                background-color: #f2f2f2;
+                }}
 
-<h2>Zestawienie Twoich kosztów</h2>
-<p>Oto lista Twoich kosztów za wynajem samochodów</p>
+                </style>
+                </head>
+            
+                <body>
 
-<table style='border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;'>
-  <tr>
-    <th style='text-align: left;padding: 16px;'>Model samochodu</th>
-    <th  style='text-align: left; padding: 16px;'>Koszt</th>
-    <th style='text-align: left; padding: 16px;'>Data</th>
-    <th style='text-align: left; padding: 16px;'>Cena</th>
-  </tr>";
+                <h2>Zestawienie Twoich kosztów</h2>
+                <p>Oto lista Twoich kosztów za wynajem samochodów</p>
+
+                <table style='border-collapse: collapse;
+                border-spacing: 0;
+                width: 100%;
+                border: 1px solid #ddd;'>
+                
+                <tr>
+                <th style='text-align: left;padding: 16px;'>Model samochodu</th>
+                <th  style='text-align: left; padding: 16px;'>Koszt</th>
+                <th style='text-align: left; padding: 16px;'>Data</th>
+                <th style='text-align: left; padding: 16px;'>Cena</th>
+                </tr>";
 
             foreach (var element in spendings)
             {
-                var model = await spendingsService.SetNames(element.CarID, element.CostID);
+                var model = spendingsService.SetNames(element.CarID, element.CostID);
 
                 stringHTML += $@"  <tr>
                                     <td style='text-align: left;padding: 16px;'>{model.Item1.Result}</td>
@@ -78,7 +81,7 @@ tr:nth-child(even) {{
 
             stringHTML += $@"</table></body></html>";
 
-            return await Task.FromResult(stringHTML);
+            return stringHTML;
         }
 
         public void Send(Email email)

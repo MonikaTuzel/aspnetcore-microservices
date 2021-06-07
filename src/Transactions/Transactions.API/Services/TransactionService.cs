@@ -1,12 +1,12 @@
-﻿using TransactionApi.IServices;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SpendingsApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TransactionApi.IServices;
 using TransactionsApi.Data;
 using TransactionsApi.Models;
-using SpendingsApi.Models;
 
 namespace TransactionApi.Services
 {
@@ -19,6 +19,9 @@ namespace TransactionApi.Services
             dbContext = _db;
         }
 
+        ///<summary>
+        /// metoda dodająca nową transakcję
+        ///</summary>
         public async Task<string> AddTransaction(Transaction Transaction)
         {
             try
@@ -28,9 +31,8 @@ namespace TransactionApi.Services
             }
             catch (Exception e)
             {
-                var a = e;
+                return await Task.FromResult(e.ToString());
             }
-
 
             var newCar = new UserCars();
             newCar.AspNetUsers_Id = Transaction.User;
@@ -45,10 +47,6 @@ namespace TransactionApi.Services
             await dbContext.SaveChangesAsync();
 
             return await Task.FromResult("OK");
-
-            ///<summary>
-            /// metoda dodająca nową transakcję
-            ///</summary>
         }
 
         public async Task<string> DeleteTransaction(int id)
@@ -56,21 +54,15 @@ namespace TransactionApi.Services
             var Transaction = dbContext.Transaction.FirstOrDefault(x => x.idTransactions == id);
             dbContext.Entry(Transaction).State = EntityState.Deleted;
             dbContext.SaveChanges();
-            return await Task.FromResult("");
+            return await Task.FromResult("OK");
         }
 
         public async Task<Transaction> GetTransactionByIdAsync(int idTransactions)
         {
             var Transaction = await dbContext.Transaction.FindAsync(idTransactions);
 
-            if (Transaction == null)
-            {
-
-            }
-
             return Transaction;
         }
-
 
         public async Task<IList<Transaction>> GetTransactions()
         {
