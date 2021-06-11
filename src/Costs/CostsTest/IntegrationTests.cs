@@ -127,15 +127,12 @@ namespace CostsTests
         }
 
         [Fact]
-        public async Task Return_404_Result()
+        public async Task Return_301_Result()
         {
             // Act
             var response = await Client.GetAsync(String.Empty);
 
-            // Assert
-            //response.EnsureSuccessStatusCode();
-
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Moved, response.StatusCode);
         }
         [Fact]
         public async Task Return_400_Result()
