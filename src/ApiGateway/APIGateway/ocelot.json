@@ -138,6 +138,16 @@
           "Url": "http://localhost:7005/swagger/v1/swagger.json"
         }
       ]
+    },
+    {
+      "Key": "User",
+      "Config": [
+        {
+          "Name": "userapi",
+          "Version": "v1",
+          "Url": "http://localhost:7001/swagger/v1/swagger.json"
+        }
+      ]
     }
     //,
     //{
